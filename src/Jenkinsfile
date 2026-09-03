@@ -1,0 +1,63 @@
+pipeline { 
+    agent any 
+ 
+    stages { 
+        stage('Code Checkout') { 
+            steps { 
+                echo "Running pipeline job: ${env.JOB_NAME}" 
+                echo "Executing build sequence number: ${env.BUILD_NUMBER}" 
+            } 
+        } 
+ 
+        stage('Verify App Files') { 
+            steps { 
+                echo 'Checking Vite project files...' 
+                script { 
+                    if (isUnix()) { 
+                        sh 'test -f package.json && test -f index.html && test -f src/main.jsx' // CHANGED: verify Vite structure
+                        sh 'echo "inside unix"' 
+                    } else { 
+                        bat 'if not exist package.json exit 1'       // CHANGED
+                        bat 'if not exist index.html exit 1'          // CHANGED
+                        bat 'if not exist src\\main.jsx exit 1'      // CHANGED
+                        bat 'echo "inside windows"' 
+                    } 
+                } 
+            } 
+        }
+
+        stage('Install Dependencies') {             // ADDED
+            steps {
+                sh 'npm ci'                          // ADDED
+            }
+        }
+
+        stage('Test') {                             // ADDED
+            steps {
+                sh 'npm test -- --run'              // ADDED
+            }
+        }
+
+        stage('Build Vite App') {                   // ADDED
+            steps {
+                sh 'npm run build'                   // ADDED: generates dist/
+            }
+        }
+ 
+        stage('Package App Artifacts') { 
+            steps { 
+                echo 'Archiving Vite build...' 
+                archiveArtifacts artifacts: 'dist/**', fingerprint: true // CHANGED: archive Vite's build output
+            } 
+        } 
+    } 
+ 
+    post { 
+        success { 
+            echo 'Build successful! Vite artifacts securely archived.' // CHANGED
+        } 
+        failure { 
+            echo 'Pipeline broke. Check recent commits.' 
+        } 
+    } 
+}

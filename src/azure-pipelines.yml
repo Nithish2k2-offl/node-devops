@@ -1,0 +1,24 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+
+- task: NodeTool@0
+  displayName: 'Install Node.js'
+  inputs:
+    versionSpec: '22.x'
+
+- script: |
+    npm ci                         # CHANGED: clean, reproducible install using package-lock.json
+  displayName: 'Install dependencies'
+
+- script: |
+    npm test -- --run              # CHANGED: Vite projects commonly use Vitest; --run prevents watch mode
+  displayName: 'Run tests'
+
+- script: |
+    npm run build                  # ADDED: Vite production build → dist/
+  displayName: 'Build Vite app'
