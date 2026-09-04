@@ -47,7 +47,7 @@ jobs:
   dockerize:
     runs-on: ubuntu-latest
     steps:
-      name: Build and push docker image
+    - name: Build and push docker image
       uses: mr-smithers-excellent/docker-build-push@v7
       with:
         image: nithish0007/node-repo
