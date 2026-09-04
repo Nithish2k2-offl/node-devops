@@ -9,37 +9,34 @@ on:
 
 jobs:
 
-  - job:
+  build:
 
-    build:
+    runs-on: ${{matrix.os}}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node-version: [22.x]
+        # os: [ubuntu-latest, windows-latest, macOS-latest]
+        # node-version: [20.x, 22.x]
 
-      runs-on: ${{matrix.os}}
-      strategy:
-        matrix:
-          os: [ubuntu-latest]
-          node-version: [22.x]
-          # os: [ubuntu-latest, windows-latest, macOS-latest]
-          # node-version: [20.x, 22.x]
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
 
-      steps:
-      - uses: actions/checkout@v4
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+    - name: Install node modules
+      run: npm ci
 
-      - name: Install node modules
-        run: npm ci
+    - name: Run build
+      run: npm run build --if-present
 
-      - name: Run build
-        run: npm run build --if-present
+    - name: Run tests
+      run: npm test
 
-      - name: Run tests
-        run: npm test
 
-  - job:
-    dockerize:
-
-      - name: To dockerize the app with containers
+  dockerize:
+    - name: To dockerize the app with containers
 
