@@ -29,5 +29,6 @@ jobs:
           framework: terraform
           soft_fail: false
   basic-scan:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout basic scan
