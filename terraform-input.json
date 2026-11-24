@@ -1,25 +1,25 @@
 {
   "resources": [
     {
-      "type": "\"aws_s3_bucket\"",
-      "name": "\"test\"",
+      "type": "aws_s3_bucket",
+      "name": "test",
       "config": {
-        "bucket": "\"risk-poc-demo-bucket\"",
+        "bucket": "risk-poc-demo-bucket",
         "__is_block__": true
       }
     },
     {
-      "type": "\"aws_security_group\"",
-      "name": "\"web\"",
+      "type": "aws_security_group",
+      "name": "web",
       "config": {
-        "name": "\"risk-poc-sg\"",
+        "name": "risk-poc-sg",
         "ingress": [
           {
             "from_port": 22,
             "to_port": 22,
-            "protocol": "\"tcp\"",
+            "protocol": "tcp",
             "cidr_blocks": [
-              "\"0.0.0.0/0\""
+              "0.0.0.0/0"
             ],
             "__is_block__": true
           }

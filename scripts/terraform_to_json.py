@@ -3,6 +3,15 @@ import hcl2
 import json
 from pathlib import Path
 
+def clean(value):
+    if isinstance(value, str):
+        return value.strip('"')
+    if isinstance(value, list):
+        return [clean(v) for v in value]
+    if isinstance(value, dict):
+        return {k: clean(v) for k, v in value.items()}
+    return value
+
 resources = []
 
 for file in Path("terraform").rglob("*.tf"):
@@ -13,9 +22,9 @@ for file in Path("terraform").rglob("*.tf"):
         for resource_type, instances in block.items():
             for name, settings in instances.items():
                 resources.append({
-                    "type": resource_type,
-                    "name": name,
-                    "config": settings
+                    "type": clean(resource_type),
+                    "name": clean(name),
+                    "config": clean(settings)
                 })
 
 Path("terraform-input.json").write_text(

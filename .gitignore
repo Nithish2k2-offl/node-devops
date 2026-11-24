@@ -24,3 +24,10 @@ dist-ssr
 *.sw?
 
 .venv
+
+
+terraform-input.json
+opa.exe
+
+policies/**
+scripts/**
