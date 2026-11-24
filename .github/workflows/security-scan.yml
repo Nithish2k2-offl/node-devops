@@ -29,3 +29,5 @@ jobs:
           framework: terraform
           soft_fail: false
   basic-scan:
+    steps:
+      - name: Checkout basic scan
