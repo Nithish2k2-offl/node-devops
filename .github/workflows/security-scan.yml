@@ -32,3 +32,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout basic scan
+        uses: actions/checkout@v4
