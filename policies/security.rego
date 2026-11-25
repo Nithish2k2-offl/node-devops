@@ -3,7 +3,7 @@ package security
 
 import rego.v1
 
-deny contains msg if {
+deny contains msg if 
     some resource in input.resources
     resource.type == "aws_security_group"
 

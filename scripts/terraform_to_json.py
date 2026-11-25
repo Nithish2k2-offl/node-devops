@@ -1,34 +1,54 @@
-
 import hcl2
 import json
 from pathlib import Path
 
-def clean(value):
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def normalize(value):
     if isinstance(value, str):
-        return value.strip('"')
+        if value.startswith('"') and value.endswith('"'):
+            try:
+                return json.loads(value)
+            except json.JSONDecodeError:
+                return value
+        return value
+
     if isinstance(value, list):
-        return [clean(v) for v in value]
+        return [normalize(item) for item in value]
+
     if isinstance(value, dict):
-        return {k: clean(v) for k, v in value.items()}
+        return {
+            normalize(key): normalize(val)
+            for key, val in value.items()
+            if key != "__is_block__"
+        }
+
     return value
 
 resources = []
 
-for file in Path("terraform").rglob("*.tf"):
+for file in (ROOT / "terraform").rglob("*.tf"):
     with file.open(encoding="utf-8") as f:
-        config = hcl2.load(f)
+        config = normalize(hcl2.load(f))
 
     for block in config.get("resource", []):
         for resource_type, instances in block.items():
             for name, settings in instances.items():
                 resources.append({
-                    "type": clean(resource_type),
-                    "name": clean(name),
-                    "config": clean(settings)
+                    "type": resource_type,
+                    "name": name,
+                    "config": settings
                 })
 
-Path("terraform-input.json").write_text(
-    json.dumps({"resources": resources}, indent=2)
+if not resources:
+    raise RuntimeError("No Terraform resources found.")
+
+output = ROOT / "terraform-input.json"
+
+output.write_text(
+    json.dumps({"resources": resources}, indent=2),
+    encoding="utf-8"
 )
 
-print("Terraform converted to JSON")
+print(f"Converted {len(resources)} Terraform resources.")

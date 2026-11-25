@@ -4,27 +4,40 @@
       "type": "aws_s3_bucket",
       "name": "test",
       "config": {
-        "bucket": "risk-poc-demo-bucket",
-        "__is_block__": true
+        "bucket": [
+          "risk-poc-demo-bucket"
+        ],
+        "__start_line__": 5,
+        "__end_line__": 7
       }
     },
     {
       "type": "aws_security_group",
       "name": "web",
       "config": {
-        "name": "risk-poc-sg",
+        "name": [
+          "risk-poc-sg"
+        ],
         "ingress": [
           {
-            "from_port": 22,
-            "to_port": 22,
-            "protocol": "tcp",
-            "cidr_blocks": [
-              "0.0.0.0/0"
+            "from_port": [
+              22
             ],
-            "__is_block__": true
+            "to_port": [
+              22
+            ],
+            "protocol": [
+              "tcp"
+            ],
+            "cidr_blocks": [
+              [
+                "10.0.0.0/8"
+              ]
+            ]
           }
         ],
-        "__is_block__": true
+        "__start_line__": 9,
+        "__end_line__": 18
       }
     }
   ]

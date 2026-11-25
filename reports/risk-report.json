@@ -1,0 +1,113 @@
+{
+  "risk_score": 45,
+  "raw_risk_score": 45,
+  "risk_level": "MEDIUM",
+  "total_findings": 9,
+  "severity_summary": {
+    "CRITICAL": 0,
+    "HIGH": 0,
+    "MEDIUM": 9,
+    "LOW": 0
+  },
+  "findings": [
+    {
+      "resource": "aws_security_group.web",
+      "severity": "MEDIUM",
+      "messages": [
+        "Ensure every security group and rule has a description"
+      ],
+      "sources": [
+        "Checkov"
+      ],
+      "risk_points": 5
+    },
+    {
+      "resource": "aws_s3_bucket.test",
+      "severity": "MEDIUM",
+      "messages": [
+        "Ensure S3 buckets should have event notifications enabled"
+      ],
+      "sources": [
+        "Checkov"
+      ],
+      "risk_points": 5
+    },
+    {
+      "resource": "aws_s3_bucket.test",
+      "severity": "MEDIUM",
+      "messages": [
+        "Ensure that S3 bucket has a Public Access block"
+      ],
+      "sources": [
+        "Checkov"
+      ],
+      "risk_points": 5
+    },
+    {
+      "resource": "aws_s3_bucket.test",
+      "severity": "MEDIUM",
+      "messages": [
+        "Ensure that an S3 bucket has a lifecycle configuration"
+      ],
+      "sources": [
+        "Checkov"
+      ],
+      "risk_points": 5
+    },
+    {
+      "resource": "aws_security_group.web",
+      "severity": "MEDIUM",
+      "messages": [
+        "Ensure that Security Groups are attached to another resource"
+      ],
+      "sources": [
+        "Checkov"
+      ],
+      "risk_points": 5
+    },
+    {
+      "resource": "aws_s3_bucket.test",
+      "severity": "MEDIUM",
+      "messages": [
+        "Ensure the S3 bucket has access logging enabled"
+      ],
+      "sources": [
+        "Checkov"
+      ],
+      "risk_points": 5
+    },
+    {
+      "resource": "aws_s3_bucket.test",
+      "severity": "MEDIUM",
+      "messages": [
+        "Ensure that S3 bucket has cross-region replication enabled"
+      ],
+      "sources": [
+        "Checkov"
+      ],
+      "risk_points": 5
+    },
+    {
+      "resource": "aws_s3_bucket.test",
+      "severity": "MEDIUM",
+      "messages": [
+        "Ensure all data stored in the S3 bucket have versioning enabled"
+      ],
+      "sources": [
+        "Checkov"
+      ],
+      "risk_points": 5
+    },
+    {
+      "resource": "aws_s3_bucket.test",
+      "severity": "MEDIUM",
+      "messages": [
+        "Ensure that S3 buckets are encrypted with KMS by default"
+      ],
+      "sources": [
+        "Checkov"
+      ],
+      "risk_points": 5
+    }
+  ]
+}
